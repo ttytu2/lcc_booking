@@ -1,0 +1,38 @@
+
+#*************git忽略文件*************
+src/main/resources/mybatis-generator-config.xml
+*.class
+
+#package file  包文件 忽略
+*.war
+*.ear
+
+#kdiff3 ignore 文件差异比较
+*.org
+
+#maven ignore  maven 相关的忽略
+target/
+out/
+bin/
+#eclipse ignore   eclipse相关的配置文件忽略
+.settings/
+.project
+.classpath
+
+#idea  idea相关的配置文件忽略
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+# temp file  临时文件忽略
+*.log
+*.cache
+*.patch
+*.tmp
+
+# system ignore 系统级忽略
+.DS_Store
+Thumbs.db
+
