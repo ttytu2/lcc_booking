@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.worthytrip.shopping.dao.mapper.flightdata.OutTimeRequestMapper">
+	<resultMap type="com.worthytrip.shopping.dao.model.flightdata.OutTimeRequestModel" id="OutTimeRequestMap">
+		<id property="id" column="id" />
+		<result property="requestJson" column="requestJson" />
+		<result property="blackKey" column="blackKey" />
+		<result property="timeCount" column="timeCount" />
+		<result property="createTime" column="createTime" />
+
+	</resultMap>
+	<sql id="OutTimeRequest_sql">id,requestJson,blackKey,timeCount,createTime</sql>
+	<insert id="saveBlackListData" parameterType="com.worthytrip.shopping.dao.model.flightdata.OutTimeRequestModel">
+		insert into black_list(
+		<include refid="OutTimeRequest_sql"></include>
+		) values
+		(#{id},#{requestJson},#{blackKey},#{timeCount},#{createTime})
+	</insert>
+</mapper>

@@ -1,0 +1,145 @@
+server:
+  port: 8084
+  tomcat:
+     max-threads: 400
+debug:
+  true
+logging:
+  path: /data/log/java_web/lcc_booking/
+spring:
+
+  application:
+    name: lcc_booking
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 0
+    pool:
+      maxActive: 8
+      maxWait: -1
+      maxIdle: 8
+      minIdle: 0
+
+  datasource:
+    #lcc的jdbc数据源配置
+    lcc:
+      url: jdbc:mysql://worthytrip.mysql.rds.aliyuncs.com:3306/lcc?useUnicode=true&characterEncoding=utf8
+      username: lcc
+      password: lcc_^&*shPpng
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      filters: stat,wall
+      maxActive: 20
+      initialSize: 5
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      #useGlobalDataSourceStat: true 
+   #policy的jdbc数据源配置
+    policy:
+      url: jdbc:mysql://worthytrip.mysql.rds.aliyuncs.com:3306/bst_policy?characterEncoding=UTF-8
+      username: lcc
+      password: lcc_^&*shPpng
+      driver-class-name: com.mysql.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+      filters: stat,wall
+      maxActive: 20
+      initialSize: 5
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      #useGlobalDataSourceStat: true
+    druid:
+      statUser: admin
+      statPassword: admin
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.uhetrip.sample.dao.dto
+
+##pagehelper分页插件
+#pagehelper:
+#    helperDialect: mysql
+#    reasonable: true
+#    supportMethodsArguments: true
+#    params: count=countSql
+
+#定时器
+scheduling:
+  poolSize: 5
+  fixed:
+    timer1: 6000
+    db:
+      fixedflight: 0 0/4 * * * ?
+    grab:
+      fixedflight: 0 0/3 * * * ?
+    multiplegrab:
+      fixedflight: 0 0/2 * * * ?
+
+execution:
+  maxPoolSize: 80
+  corePoolSize: 10
+  queueCapacity: 200
+  keepAlive: 20
+
+lcc:
+  #httpclient的两个初始化参数
+  httpmaxTotal: 700
+  httpMaxPerRoute: 300
+  #缓存数据有效时间基数一小时
+  validTime: 3600000
+  #抓取数据的URL地址
+  grapUrl: http://127.0.0.1:9010/lcc/shopping
+  #抓取数据配置，parser使用js脚本解析数据，browser使用firefox浏览器，entry抓取pc的网站，timeout设置请求数据的超时时间
+  parser: js
+  browser: Chrome
+  entry: pc
+  timeout: 120000
+  #生单请求的超时时间设置
+  timeOutForBooking: 8000
+  #生单价格比较的价格范围设置
+  priceLimit: 50
+  #验价的请求时间超时设置
+  timeOutForCheckPrice: 5000
+  #缓存超时间(秒)
+  cacheTimeOut: 1800
+  #失败次数(失败多少次后切换代理)
+  failedCount: 3
+  #切换代理等待生效时间(毫秒)
+  waitProxySwitchTime: 20000
+  #切换代理
+  switchProxyUrl: http://ip4.hahado.cn/simple/switch-ip?username=duoipcnizbtiapj&password=8m1n0gxxWGuIa11111
+  #是否开启批量爬虫
+  webDriverSwitch: 0
+  #异步单次爬虫次数
+  multipleGrabCount: 100
+  #单个flight需要开启线程的总个数
+  everGrabCount: 1
+  #过滤某条航班座位数
+  filterSeatsCount: 4
+  #生单存入redis有效时间(秒)
+  redisDeadLine: 1800
+   #限制生单人数配置
+  #orderPassengerLimit: /{"TGAU_F":5,"9C_F":2,"LCJC_F":10/}
+  #ipccOrderSeatsLimit: /{"TGAU_F":5,"9C_F":0,"LCJC_F":10/}
+  #ipccOrderSeatsLimit: /{"TGAU_F":4,"9C_F":0,"LCJC_F":10,"LCPAM_F":10/}
+  ipccOrderSeatsLimit: /{"TGAU_F":5,"9C_F":0,"LCJC_F":10,"LCPAM_F":10,"LC5J_F":10}/
